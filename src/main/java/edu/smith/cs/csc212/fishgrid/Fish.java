@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.util.Random;
 
 /**
  * Most Fish behavior lives up in WorldObject (a Fish just looks special!).
@@ -18,18 +19,29 @@ public class Fish extends WorldObject {
 	static Color[] COLORS = {
 			Color.red,
 			Color.green,
-			Color.yellow
-			// TODO: (lab) Add more colors.
-			// TODO: (FishGrid) Maybe make a special fish that is more points?
+			Color.yellow,
+			Color.blue,
+			Color.cyan,
+			Color.pink,
+			Color.gray,
+			Color.orange,
+			Color.white,
+			Color.magenta,
+			Color.white
+			// Maybe make a special fish that is more points?
+			// WHITE WORTH 100!!
 	};
 	/**
 	 * This is an index into the {@link #COLORS} array.
 	 */
-	int color;
+	int colorIndex;
 	/**
 	 * Whether or not this is the player;
 	 */
 	boolean player = false;
+	Random rand = new Random();
+
+	boolean fastScared;
 	
 	/**
 	 * Called only on the Fish that is the player!
@@ -38,23 +50,34 @@ public class Fish extends WorldObject {
 		this.player = true;
 	}
 
+	public Color color(){
+		return COLORS[this.colorIndex];
+	}
 
 	/**
 	 * A Fish knows what World it belongs to, because all WorldObjects do.
 	 * @param color Color by number.
 	 * @param world The world itself.
 	 */
-	public Fish(int color, World world) {
+	public Fish(int colorI, World world) {
 		super(world);
-		this.color = color;
+		this.colorIndex = colorI;
+		this.fastScared = this.randBool();
+		
 	}
 	
+	public boolean randBool(){
+		if (rand.nextInt(10) < 4){
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * What actual color is this fish? We store an index, so get it here.
 	 * @return the Color object from our array.
 	 */
 	public Color getColor() {
-		return COLORS[this.color];
+		return COLORS[this.colorIndex];
 	}
 	
 	/**

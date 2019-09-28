@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Main",
+            "request": "launch",
+            "mainClass": "edu.smith.cs.csc212.fishgrid.Main",
+            "projectName": "FishGrid"
+        }
+    ]
+}

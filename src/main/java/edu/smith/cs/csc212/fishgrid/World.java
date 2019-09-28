@@ -156,6 +156,18 @@ public class World {
 		insertRandomly(r);
 		return r;
 	}
+
+	public FallingRock insertFallingRockRandomly() {
+		FallingRock r = new FallingRock(this);
+		insertRandomly(r);
+		return r;
+	}
+
+	public FishFood insertFoodRandomly() {
+		FishFood f = new FishFood(this);
+		insertRandomly(f);
+		return f;
+	}
 	
 	/**
 	 * Insert a new Fish into the world at random of a specific color.
@@ -204,7 +216,19 @@ public class World {
 		List<WorldObject> inSpot = this.find(x, y);
 		
 		for (WorldObject it : inSpot) {
-			// TODO(FishGrid): Don't let us move over rocks as a Fish.
+			if(whoIsAsking instanceof FallingRock) {
+				if(it instanceof FishHome) {
+					return false;
+				}
+			}
+			if (it instanceof Rock || it instanceof FallingRock){
+				return false;
+			}
+			if (!isPlayer) {
+				if (it instanceof Fish) {
+					return false;
+				}
+			}
 			// The other fish shouldn't step "on" the player, the player should step on the other fish.
 			if (it instanceof Snail) {
 				// This if-statement doesn't let anyone step on the Snail.
@@ -233,11 +257,25 @@ public class World {
 	 * @param followers a set of objects to follow the leader.
 	 */
 	public static void objectsFollow(WorldObject target, List<? extends WorldObject> followers) {
-		// TODO(FishGrid) Comment this method!
-		// What is recentPositions?
-		// What is followers?
-		// What is target?
-		// Why is past = putWhere[i+1]? Why not putWhere[i]?
+		// Comment this method!
+		// 1- What is recentPositions?
+		// recentPosition is a deque (double ended queue). 
+		// We can use deque to insert and delete element from both begin and the end of it with the sentinel node.  
+		// List of locations of WorldObject
+		
+		// 2- What is followers?
+		// Followers is the list of fish following the targer (player). 
+		// List of worldObject objects.
+
+		// 3- What is target?
+		// Target is the fish to be followed by a group of fish. 
+		// In this project up to what I'am doing, it's the playerfish.
+		// It's worldObject object.
+
+		// 4- Why is past = putWhere[i+1]? Why not putWhere[i]?
+		// putWhere[i] is the current location of targer fish. 
+		// putWhere[i+1] is the location where target fish was.
+
 		List<IntPoint> putWhere = new ArrayList<>(target.recentPositions);
 		for (int i=0; i < followers.size() && i+1 < putWhere.size(); i++) {
 			// What is the deal with the two conditions in this for-loop?
